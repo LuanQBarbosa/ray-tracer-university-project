@@ -7,8 +7,12 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "primitive.h"
-#include "sphere.h"
+#include "sphere.h" 
 #include "triangle.h"
 
 class Scene
