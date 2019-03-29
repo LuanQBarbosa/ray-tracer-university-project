@@ -5,6 +5,7 @@
 #include "primitive.h"
 #include "intersection_record.h"
 #include "ray.h"
+#include "material.h"
 
 class Triangle : public Primitive
 {
@@ -15,7 +16,7 @@ public:
 
 	Triangle( void );
 
-	Triangle( const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3 );
+	Triangle( const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3, Material material );
 
 	bool intersect( const Ray &ray,
 			IntersectionRecord &intersection_record ) const;

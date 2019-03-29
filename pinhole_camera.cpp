@@ -30,8 +30,8 @@ Ray PinholeCamera::getWorldSpaceRay( const glm::vec2 &pixel_coord ) const
     glm::vec3 b(0, max_y_ - min_y_, 0);
     glm::vec3 c(min_x_, min_y_, -focal_distance_);
 
-    float u = (pixel_coord.x + 0.5) / resolution_.x;
-    float v = (pixel_coord.y + 0.5) / resolution_.y;
+    float u = (pixel_coord.x) / resolution_.x;
+    float v = (pixel_coord.y) / resolution_.y;
 
     glm::vec3 s = c + u * a + v * b;
 

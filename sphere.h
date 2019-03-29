@@ -5,6 +5,7 @@
 #include "primitive.h"
 #include "intersection_record.h"
 #include "ray.h"
+#include "material.h"
 
 class Sphere : public Primitive
 {
@@ -13,7 +14,8 @@ public:
     Sphere( void );
 
     Sphere( const glm::vec3 &center,
-            float radius );
+            float radius,
+            Material material );
 
     bool intersect( const Ray &ray,
                     IntersectionRecord &intersection_record ) const;

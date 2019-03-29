@@ -4,10 +4,13 @@ Sphere::Sphere( void )
 {}
 
 Sphere::Sphere( const glm::vec3 &center,
-                float radius ) :
+                float radius,
+                Material material) :
         center_{ center },
         radius_{ radius }
-{}
+{
+    material_ = material;
+}
 
 bool Sphere::intersect( const Ray &ray,
                         IntersectionRecord &intersection_record ) const

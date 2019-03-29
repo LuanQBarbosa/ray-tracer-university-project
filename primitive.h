@@ -5,6 +5,7 @@
 
 #include "ray.h"
 #include "intersection_record.h"
+#include "material.h"
 
 class Primitive
 {
@@ -12,7 +13,7 @@ public:
 
     typedef std::unique_ptr< Primitive > PrimitiveUniquePtr;
 
-    glm::vec3 color_;
+    Material material_;
 
     Primitive( void );
 

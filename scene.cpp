@@ -19,7 +19,8 @@ bool Scene::intersect( const Ray &ray,
             if ( ( tmp_intersection_record.t_ < intersection_record.t_ ) && ( tmp_intersection_record.t_ > 0.0 ) )
             {
                 intersection_record = tmp_intersection_record;
-                intersection_record.color_ = primitives_[primitive_id]->color_;
+				intersection_record.material_.emission_ = primitives_[primitive_id]->material_.emission_;
+				intersection_record.material_.brdf_ = primitives_[primitive_id]->material_.brdf_;
                 intersection_result = true; // the ray intersects a primitive!
             }
 
@@ -46,9 +47,14 @@ void Scene::load( void )
 //	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f))));
 //	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.5f, 0.0f, 0.0f))));
 
+	Material m1{ BRDF{ glm::vec3{ 0.0f, 0.0f, 1.0f } }, glm::vec3{ 0.0f, 0.0f, 0.0f } };
+	Material m2{ BRDF{ glm::vec3{ 1.0f, 1.0f, 1.0f } }, glm::vec3{ 40.0f, 40.0f, 40.0f } };
+
+	primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{  0.0f, 2.0f,  0.0f }, 0.5f, m2 } ) );
+
 	Assimp::Importer importer;
 
-	const aiScene *scene = importer.ReadFile("/home/ryuugami/Documents/Programming/eclipse-workspace/RT-Template-master/models/pig.obj",
+	const aiScene *scene = importer.ReadFile("/home/ryuugami/Documents/Programming/eclipse-workspace/RT-Template-master/models/cat.obj",
 											  aiProcess_CalcTangentSpace |
 											  aiProcess_Triangulate |
 											  aiProcess_JoinIdenticalVertices |
@@ -64,16 +70,17 @@ void Scene::load( void )
 			auto v2 = mesh->mVertices[face.mIndices[1]];
 			auto v3 = mesh->mVertices[face.mIndices[2]];
 
-			float r, g, b;
-			r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-			b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-			g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+			// float r, g, b;
+			// r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+			// b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+			// g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
 			Triangle *triangle = new Triangle(glm::vec3(v1.x, v1.y, v1.z),
 											 glm::vec3(v2.x, v2.y, v2.z),
-											 glm::vec3(v3.x, v3.y, v3.z));
+											 glm::vec3(v3.x, v3.y, v3.z),
+											 m1);
 
-			triangle->color_ = glm::vec3(r, g, b);
+			// triangle->color_ = glm::vec3(r, g, b);
 			primitives_.push_back( Primitive::PrimitiveUniquePtr(triangle));
 		}
 	}
