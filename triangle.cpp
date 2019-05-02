@@ -99,6 +99,19 @@ bool Triangle::intersect(const Ray &ray,
 	intersection_record.normal_ = glm::normalize(glm::cross(vertex[1] - vertex[0],
 		       vertex[2] - vertex[0]));
 
+	intersection_record.material_.emission_ = material_.emission_;
+	intersection_record.material_.brdf_ = material_.brdf_;
+
 	return true;
+}
+
+BBox Triangle::getAABB( void ) const
+{
+	BBox aabb;
+
+	aabb.min_ = glm::min( glm::min( vertex[0], vertex[1] ), vertex[2] );
+	aabb.max_ = glm::max( glm::max( vertex[0], vertex[1] ), vertex[2] );
+	aabb.centroid_ = ( 1.0f / 3.0f ) * ( vertex[0] + vertex[1] + vertex[2] );
+	return aabb;
 }
 

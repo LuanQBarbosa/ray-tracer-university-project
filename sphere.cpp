@@ -45,6 +45,19 @@ bool Sphere::intersect( const Ray &ray,
     intersection_record.position_ = ray.origin_ + intersection_record.t_ * ray.direction_;
     intersection_record.normal_ = glm::normalize( intersection_record.position_ - center_ );
 
+    intersection_record.material_.emission_ = material_.emission_;
+	intersection_record.material_.brdf_ = material_.brdf_;
+
     return true;
+}
+
+BBox Sphere::getAABB( void ) const
+{
+    BBox aabb;
+
+    aabb.min_ = center_ - radius_;
+    aabb.max_ = center_ + radius_;
+    aabb.centroid_ = center_;
+    return aabb;
 }
 

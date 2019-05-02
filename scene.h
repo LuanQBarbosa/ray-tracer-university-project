@@ -14,6 +14,11 @@
 #include "primitive.h"
 #include "sphere.h" 
 #include "triangle.h"
+#include "bvh.h"
+#include "diffuse.h"
+#include "perfect_reflector.h"
+#include "smooth_dieletric.h"
+#include "cook_torrance.h"
 
 class Scene
 {
@@ -27,6 +32,12 @@ public:
                     IntersectionRecord &intersection_record ) const;
 
     void load( void );
+
+    void loadObj( const char* obj, glm::vec3 position, float size, Material material );
+
+    void buildBVH( void );
+
+    const BVH *bvh_ = nullptr;
 
     std::vector< Primitive::PrimitiveUniquePtr > primitives_;
 

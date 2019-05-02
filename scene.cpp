@@ -4,57 +4,86 @@ Scene::Scene( void )
 {}
 
 Scene::~Scene( void )
-{}
+{
+	if ( bvh_ )
+    {
+        delete bvh_;
+        bvh_ = nullptr;
+    }
+}
+
+// bool Scene::intersect( const Ray &ray,
+//                        IntersectionRecord &intersection_record ) const
+// {
+//     bool intersection_result = false;
+//     IntersectionRecord tmp_intersection_record;
+//     std::size_t num_primitives = primitives_.size();
+
+//     // Loops over the list of primitives, testing the intersection of each primitive against the given ray 
+//     for ( std::size_t primitive_id = 0; primitive_id < num_primitives; primitive_id++ )
+//         if ( primitives_[primitive_id]->intersect( ray, tmp_intersection_record ) )
+//             if ( ( tmp_intersection_record.t_ < intersection_record.t_ ) && ( tmp_intersection_record.t_ > 0.0 ) )
+//             {
+//                 intersection_record = tmp_intersection_record;
+//                 intersection_result = true; // the ray intersects a primitive!
+//             }
+
+//     return intersection_result;
+// }
 
 bool Scene::intersect( const Ray &ray,
                        IntersectionRecord &intersection_record ) const
 {
     bool intersection_result = false;
     IntersectionRecord tmp_intersection_record;
-    std::size_t num_primitives = primitives_.size();
 
-    // Loops over the list of primitives, testing the intersection of each primitive against the given ray 
-    for ( std::size_t primitive_id = 0; primitive_id < num_primitives; primitive_id++ )
-        if ( primitives_[primitive_id]->intersect( ray, tmp_intersection_record ) )
-            if ( ( tmp_intersection_record.t_ < intersection_record.t_ ) && ( tmp_intersection_record.t_ > 0.0 ) )
-            {
-                intersection_record = tmp_intersection_record;
-				intersection_record.material_.emission_ = primitives_[primitive_id]->material_.emission_;
-				intersection_record.material_.brdf_ = primitives_[primitive_id]->material_.brdf_;
-                intersection_result = true; // the ray intersects a primitive!
-            }
+    intersection_result = bvh_->intersect( ray, intersection_record);
 
     return intersection_result;
 }
 
+void Scene::buildBVH( void )
+{
+    bvh_ = new BVH( primitives_ );
+	std::clog << std::endl;
+}
+
 void Scene::load( void )
 {
-//    primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{  0.0f, 0.0f,  0.0f }, 0.2f } ) );
-//    primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{ -0.5f, 0.0f, -1.0f }, 0.2f } ) );
-//    primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{  0.0f,-0.5f, -2.0f }, 0.2f } ) );
-//    primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{  0.0f, 0.5f, -3.0f }, 0.2f } ) );
+	Material m1{ new Diffuse{ glm::vec3{ 0.5f, 0.5f, 0.5f } }, glm::vec3{ 0.0f, 0.0f, 0.0f } };
+	Material m2{ new Diffuse{ glm::vec3{ 0.0f, 0.0f, 0.0f } }, glm::vec3{ 40.0f, 40.0f, 40.0f } };
+	Material m3{ new Diffuse{ glm::vec3{ 0.0f, 0.0f, 1.0f } }, glm::vec3{ 7.5f, 7.5f, 7.5f } };
 
-//    for (int i = 0; i < 10000; ++i)
-//    	primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.25f + (2.0f*i), 0.5f, -1.0f), glm::vec3(0.5f, 0, 0), glm::vec3(0, 0, 0))));
+	// Spheres
+	// Sphere *s1 = new Sphere(glm::vec3(-1.0f, -1.0f, 0.0f), 0.75f, Material{ new SmoothDieletric{ glm::vec3{ 69.0f, 74.0f, 208.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });	
+	// primitives_.push_back(Primitive::PrimitiveUniquePtr(s1));
 
-//	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.25f, 0.5f, -1.0f), glm::vec3(0.5f, 0, 0), glm::vec3(0, 0, 0))));
-//    primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(-0.25f, 0.5f, -1.0f), glm::vec3(-0.5f, 0, 0), glm::vec3(0, 0, 0))));
-//    primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(-0.25f, -0.5f, -1.0f), glm::vec3(-0.5f, 0, 0), glm::vec3(0, 0, 0))));
-//    primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.25f, -0.5f, -1.0f), glm::vec3(0.5f, 0, 0), glm::vec3(0, 0, 0))));
+    // // Sphere *s2 = new Sphere(glm::vec3(0.0f, 0.00f, 0.0f), 0.75f, Material{ new CookTorrance{ glm::vec3{ 0.0f, 0.0f, 255.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
+    // // primitives_.push_back(Primitive::PrimitiveUniquePtr(s2));
 
-//    Zelda's Triforce!
-//	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(-0.5f, 0.0f, 0.0f))));
-//	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f))));
-//	  primitives_.push_back(Primitive::PrimitiveUniquePtr(new Triangle(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.5f, 0.0f, 0.0f))));
+    // Sphere *s3 = new Sphere(glm::vec3(1.0f, -1.0f, -2.0f), 0.75f, Material{ new PerfectReflector{ glm::vec3{ 15.0f, 210.0f, 8.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
+	// primitives_.push_back(Primitive::PrimitiveUniquePtr(s3));
 
-	Material m1{ BRDF{ glm::vec3{ 0.0f, 0.0f, 1.0f } }, glm::vec3{ 0.0f, 0.0f, 0.0f } };
-	Material m2{ BRDF{ glm::vec3{ 1.0f, 1.0f, 1.0f } }, glm::vec3{ 40.0f, 40.0f, 40.0f } };
+	// Lights    
+    Sphere *s4 = new Sphere(glm::vec3(0.0f, 4.0f, 0.0f), 1.5f, m3);
+    primitives_.push_back(Primitive::PrimitiveUniquePtr(s4));
 
-	primitives_.push_back( Primitive::PrimitiveUniquePtr( new Sphere{ glm::vec3{  0.0f, 2.0f,  0.0f }, 0.5f, m2 } ) );
+    Sphere *s5 = new Sphere(glm::vec3(0.0f, 4.0f, -0.75f), 1.5f, m3);
+    primitives_.push_back(Primitive::PrimitiveUniquePtr(s5));
 
+    Sphere *s6 = new Sphere(glm::vec3(0.0f, 4.0f, -2.5f), 1.5f, m3);
+    primitives_.push_back(Primitive::PrimitiveUniquePtr(s6));
+
+    Sphere *s7 = new Sphere(glm::vec3(0.0f, 4.0f, -4.25f), 1.5f, m3);
+    primitives_.push_back(Primitive::PrimitiveUniquePtr(s7));	
+
+}
+
+void Scene::loadObj( const char* obj, glm::vec3 position, float size, Material material )
+{
 	Assimp::Importer importer;
 
-	const aiScene *scene = importer.ReadFile("/home/ryuugami/Documents/Programming/eclipse-workspace/RT-Template-master/models/cat.obj",
+	const aiScene *scene = importer.ReadFile(obj,
 											  aiProcess_CalcTangentSpace |
 											  aiProcess_Triangulate |
 											  aiProcess_JoinIdenticalVertices |
@@ -70,20 +99,13 @@ void Scene::load( void )
 			auto v2 = mesh->mVertices[face.mIndices[1]];
 			auto v3 = mesh->mVertices[face.mIndices[2]];
 
-			// float r, g, b;
-			// r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-			// b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-			// g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+			Triangle *triangle = new Triangle((glm::vec3(v1.x, v1.y, v1.z)) * size + position,
+											 (glm::vec3(v2.x, v2.y, v2.z)) * size + position,
+											 (glm::vec3(v3.x, v3.y, v3.z)) * size + position,
+											 material);
 
-			Triangle *triangle = new Triangle(glm::vec3(v1.x, v1.y, v1.z),
-											 glm::vec3(v2.x, v2.y, v2.z),
-											 glm::vec3(v3.x, v3.y, v3.z),
-											 m1);
-
-			// triangle->color_ = glm::vec3(r, g, b);
 			primitives_.push_back( Primitive::PrimitiveUniquePtr(triangle));
 		}
 	}
-
 }
 

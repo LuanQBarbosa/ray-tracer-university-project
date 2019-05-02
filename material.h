@@ -10,11 +10,11 @@ public:
 
 	Material( void );
 
-	Material( BRDF brdf, glm::vec3 emission);
+	Material( BRDF* brdf, glm::vec3 emission);
 
 	glm::vec3 emission_;
 
-	BRDF brdf_;
+	BRDF* brdf_;
 
 };
 

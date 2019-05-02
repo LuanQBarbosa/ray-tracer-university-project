@@ -24,6 +24,8 @@ public:
 
     float radius_= 1.0f;
 
+    BBox getAABB( void ) const;
+
 private:
 
     static const float kIntersectionTestEpsilon_;

@@ -13,9 +13,11 @@ public:
 
 	virtual ~BRDF( void );
 
-	glm::vec3 fr();
+	virtual glm::vec3 fr() = 0;
 
 	glm::vec3  reflectance_;
+
+	int type;
 
 };
 

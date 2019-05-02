@@ -21,6 +21,8 @@ public:
 	bool intersect( const Ray &ray,
 			IntersectionRecord &intersection_record ) const;
 
+	BBox getAABB( void ) const;
+
 };
 
 

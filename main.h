@@ -8,6 +8,7 @@
 #include "buffer.h"
 #include "raytracer.h"
 #include "pathtracer.h"
+#include "diffuse.h"
 
 #endif /* MAIN_H_ */
 
