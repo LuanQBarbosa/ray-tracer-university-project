@@ -52,30 +52,39 @@ void Scene::load( void )
 {
 	Material m1{ new Diffuse{ glm::vec3{ 0.5f, 0.5f, 0.5f } }, glm::vec3{ 0.0f, 0.0f, 0.0f } };
 	Material m2{ new Diffuse{ glm::vec3{ 0.0f, 0.0f, 0.0f } }, glm::vec3{ 40.0f, 40.0f, 40.0f } };
-	Material m3{ new Diffuse{ glm::vec3{ 0.0f, 0.0f, 1.0f } }, glm::vec3{ 7.5f, 7.5f, 7.5f } };
+	Material m3{ new Diffuse{ glm::vec3{ 0.0f, 0.0f, 1.0f } }, glm::vec3{ 12.5f, 12.5f, 12.5f } };
 
 	// Spheres
-	// Sphere *s1 = new Sphere(glm::vec3(-1.0f, -1.0f, 0.0f), 0.75f, Material{ new SmoothDieletric{ glm::vec3{ 69.0f, 74.0f, 208.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });	
+	// Sphere *s1 = new Sphere(glm::vec3(-1.5f, -1.0f, 1.0f), 0.75f, Material{ new SmoothDieletric{ glm::vec3{ 69.0f, 74.0f, 208.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });	
 	// primitives_.push_back(Primitive::PrimitiveUniquePtr(s1));
 
-    // // Sphere *s2 = new Sphere(glm::vec3(0.0f, 0.00f, 0.0f), 0.75f, Material{ new CookTorrance{ glm::vec3{ 0.0f, 0.0f, 255.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
-    // // primitives_.push_back(Primitive::PrimitiveUniquePtr(s2));
+    // Sphere *s2 = new Sphere(glm::vec3(0.0f, -1.0f, 0.0f), 0.75f, Material{ new CookTorrance{ glm::vec3{ 44.0f, 242.0f, 97.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s2));
 
-    // Sphere *s3 = new Sphere(glm::vec3(1.0f, -1.0f, -2.0f), 0.75f, Material{ new PerfectReflector{ glm::vec3{ 15.0f, 210.0f, 8.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
+    // Sphere *s3 = new Sphere(glm::vec3(1.5f, -1.0f, 1.0f), 0.75f, Material{ new PerfectReflector{ glm::vec3{ 15.0f, 210.0f, 8.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
 	// primitives_.push_back(Primitive::PrimitiveUniquePtr(s3));
 
+	// Sphere *s1 = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, Material{ new SmoothDieletric{ glm::vec3{ 69.0f, 74.0f, 208.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });	
+	// primitives_.push_back(Primitive::PrimitiveUniquePtr(s1));
+
+	// Sphere *s2 = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 0.99f, Material{ new Diffuse{ glm::vec3{ 255.0f, 0.0f, 0.0f } / 255.0f }, glm::vec3{ 0.0f, 0.0f, 0.0f } });
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s2));
+
 	// Lights    
-    Sphere *s4 = new Sphere(glm::vec3(0.0f, 4.0f, 0.0f), 1.5f, m3);
+    // Sphere *s4 = new Sphere(glm::vec3(-0.35f, 3.5f, 0.0f), 1.0f, m3);
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s4));
+
+	Sphere *s4 = new Sphere(glm::vec3(-0.95f, 1.0f, 0.75f), 0.15f, m3);
     primitives_.push_back(Primitive::PrimitiveUniquePtr(s4));
 
-    Sphere *s5 = new Sphere(glm::vec3(0.0f, 4.0f, -0.75f), 1.5f, m3);
-    primitives_.push_back(Primitive::PrimitiveUniquePtr(s5));
+    // Sphere *s5 = new Sphere(glm::vec3(0.0f, 4.0f, -0.75f), 1.5f, m3);
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s5));
 
-    Sphere *s6 = new Sphere(glm::vec3(0.0f, 4.0f, -2.5f), 1.5f, m3);
-    primitives_.push_back(Primitive::PrimitiveUniquePtr(s6));
+    // Sphere *s6 = new Sphere(glm::vec3(0.0f, 4.0f, -2.5f), 1.5f, m3);
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s6));
 
-    Sphere *s7 = new Sphere(glm::vec3(0.0f, 4.0f, -4.25f), 1.5f, m3);
-    primitives_.push_back(Primitive::PrimitiveUniquePtr(s7));	
+    // Sphere *s7 = new Sphere(glm::vec3(0.0f, 4.0f, -4.25f), 1.5f, m3);
+    // primitives_.push_back(Primitive::PrimitiveUniquePtr(s7));	
 
 }
 

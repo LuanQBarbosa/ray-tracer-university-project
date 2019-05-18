@@ -23,9 +23,9 @@ void PathTracer::integrate( void )
     // Image space origin (i.e. x = 0 and y = 0) at the top left corner.
 
     // Loops over image rows
-    int nsamples = 500;
+    int nsamples = 1000;
 
-    #pragma omp parallel for schedule( dynamic, 1 )    
+    // #pragma omp parallel for schedule( dynamic, 1 )    
     for ( std::size_t y = 0; y < buffer_.v_resolution_; y++ )
     {
         std::stringstream progress_stream;
@@ -77,7 +77,7 @@ glm::vec3 PathTracer::L( Ray &ray, int curr_depth )
     float random;
     float cosX;
 
-    if (curr_depth < 5) {
+    if (curr_depth < 15) {
         if (scene_.intersect(ray, intersection_record)) {
 
             switch (intersection_record.material_.brdf_->type) {
@@ -133,7 +133,7 @@ glm::vec3 PathTracer::L( Ray &ray, int curr_depth )
 
                     //roughness factor
 
-                    float m = 0.35f;
+                    float m = 0.5f;
 
                     //Importance sampling
 
